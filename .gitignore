@@ -1,0 +1,8 @@
+*.o
+*.dylib
+*.so
+*.wav
+*.pyc
+*.mp3
+*.DS_Store
+*doc/
