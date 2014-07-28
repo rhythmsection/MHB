@@ -15,7 +15,7 @@ stupid_sample_data = {1:[10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 1
 					  3:[6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0]}
 
 # a global variable that represents the number of pockets minus one
-NUM_POCKETS = 20
+NUM_POCKETS = 10
 
 #tells the command line to take an argument. (the wav file)
 filename = sys.argv[1]
@@ -25,14 +25,14 @@ def slice_some_data(filename):
 	#return the rate and the amount of data as separate variables.
 	rate, data = wavfile.read(filename)
 	#I'm not actually sure I use this variable, but it's good to know. 
-	number_of_bins = len(data/2756)
+	number_of_bins = len(data/5512)
 	#take the data and slice it into chunks of ___ length. 
 	index = 0
 	#dictionary storage of all of the data
 	bins = collections.defaultdict(list)
 	#slices data into subsets based on the number of Hz. Note overlap. 
-	for i in range(0, len(data), 2756):
-		slice = data[i:i+5512]
+	for i in range(0, len(data), 5512):
+		slice = data[i:i+11025]
 		#run fourier transform on each slice.
 		fourier_transformed = rfft(slice)
 		#assign these frequencies to bin entries in bin.
@@ -68,7 +68,7 @@ def find_pocket_max(pockets):
 
 def trim_minimum_amplitudes(max_pockets):
 	trimmed_max_pockets = []
-	min_amp = 20000.0
+	min_amp = 30000.0
 	for max in max_pockets:
 		if max[0] > min_amp:
 			trimmed_max_pockets.append(max[1])
@@ -108,7 +108,7 @@ def fingerprint_pair_hashing(location_fingerprint):
 	range_value = 10
 	'''bin difference between pairs'''
 	min_time_difference = 0
-	max_time_difference = 5
+	max_time_difference = 3
 	final_fingerprint = []
 	fingerprinted = set()
 	for i in range(len(location_fingerprint)):
