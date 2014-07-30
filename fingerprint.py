@@ -7,9 +7,6 @@ import math
 import sys
 import hashlib
 
-#for now...
-import sys
-
 stupid_sample_data = {1:[10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0], 
 					  2:[1.2, 2.3, 3.4, 4.5, 5.6, 6.7, 7.8, 8.9, 9.0, 10.1], 
 					  3:[6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0]}
@@ -18,7 +15,7 @@ stupid_sample_data = {1:[10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 1
 NUM_POCKETS = 10
 
 #tells the command line to take an argument. (the wav file)
-filename = sys.argv[1]
+# filename = sys.argv[1]
 
 #slice the data from the wav file into chunks. 
 def slice_some_data(filename):
@@ -74,12 +71,12 @@ def trim_minimum_amplitudes(max_pockets):
 			trimmed_max_pockets.append(max[1])
 	return trimmed_max_pockets
 
-def assigning_time_to_frequency_points(music_fingerprint):
-	frequency_pair_list = []
-	for idx, trimmed_max_pockets in enumerate(music_fingerprint):
-		for number in trimmed_max_pockets:
-			frequency_pair_list.append((number, idx))
-	return frequency_pair_list
+# def assigning_time_to_frequency_points(music_fingerprint):
+# 	frequency_pair_list = []
+# 	for idx, trimmed_max_pockets in enumerate(music_fingerprint):
+# 		for number in trimmed_max_pockets:
+# 			frequency_pair_list.append((number, idx))
+# 	return frequency_pair_list
 
 def assigning_time_to_pocket_points(music_fingerprint):
 	frequency_pair_list = []

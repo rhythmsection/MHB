@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta http-equiv = "Content-Type" content = "text/html; charset = utf-8">
+	<title>SHIT'S GETTING REAL - A MANIFESTO</title>
+	<style type = 'text/css'>
+	</style>
+</head>
+<body>
+	
+	<button onclick = "startRecording(this);">GET THIS SHIT</button>
+	<button onclick = "stopRecording(this);", disabled>SHIT'S TOO REAL</button>
+
+	<div id ="results"></div>
+
+	<script>
+
+	var audio_context;
+	var recorder;
+
+	//passes stream input to recorder thingy?
+	function startUserMedia(stream) {
+		var input = audio_context.createMediaStreamSource(stream);
+		input.connect(audio_context.destination);
+		recorder = new Recorder(input);
+	}
+
+	//starts recording
+	function startRecording(button) {
+		recorder && recorder.record();
+		button.disabled = true;
+		button.nextElementSibling.disabled = false;
+	}
+
+	//stops recording. can I also make it stop accessing the mic here???
+	function stopRecording(button) {
+		recorder && recorder.stop();
+		button.disabled = true;
+		button.previousElementSibling.disabled = false;
+
+		returnResults();
+		recorder.clear();
+	}
+
+	function returnResults() {
+		recorder && recorder.exportWAV(function(blob) {
+			var data = new FormData();
+			data.append('user_audio', blob);
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', '/music_recognition', true);
+			xhr.send(data);
+			xhr.onreadystatechange = function(){
+				if (xhr.readyState==4 && xhr.status == 200)
+					{
+						var results = document.getElementById('results');
+						var john = JSON.parse(xhr.responseText);
+						for (var i = 0; i < john.length; i++) {
+							var item = john[i];
+  							results.innerHTML = results.innerHTML + ' ' + item["title"] + ': ' + item["is_a_match"] + "</p>"
+  							console.log(item)
+						}
+					}
+			}
+
+		});
+
+	}
+
+	window.onload = function init() {
+		try {
+			//here is where we figure out if these things can be used in a given browser.
+			window.AudioContext = window.AudioContext || window.webkitAudioContext;
+			navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+			window.URL = window.URL || window.webkitURL;
+
+			audio_context = new AudioContext;
+		}
+		catch (e) {
+			alert('SON, THIS SHIT WILL NOT FLY');
+		}
+		//finally run .getUserMedia calling constraint audio, successCallback //startUserMedia, errorCallback noooooooo
+		navigator.getUserMedia({audio: true}, startUserMedia, function(e) {console.log('noooooooooooooo' + e);
+	});
+
+	};
+	</script>
+
+	<script src = "static/js/vendor/recorder.js"></script>
+</body>
+</html>
+
