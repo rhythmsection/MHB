@@ -8,6 +8,7 @@ wav_file = sys.argv[1]
 
 session = model.connect()
 
+#creates and stores fingerprints for individual songs. 
 def load_test_data(wav_file):
 	# path = r'/Users/LEO/Documents/Programming/MRS/stupid/echoprint-codegen-master/test_data'
 	# for wav_file in os.listdir(path):

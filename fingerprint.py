@@ -38,6 +38,7 @@ def slice_some_data(filename):
 		index += 1
 	return bins
 
+#creates and stores frequencies from FFT into logarithmically filled pockets within each bin. 
 def slice_frequencies_into_log_pockets(bin_key, bins):
 	bin_location = bins[bin_key]
 	max_frequencies_in_bin = []
@@ -56,6 +57,7 @@ def slice_frequencies_into_log_pockets(bin_key, bins):
 		pockets[min(pocket_idx, NUM_POCKETS-1)].append((abs(amplitude), frequency))
 	return pockets
 
+#finds the max of each pocket. 
 def find_pocket_max(pockets):
 	max_pockets = []
 	for p in pockets[5:]:
@@ -63,6 +65,7 @@ def find_pocket_max(pockets):
 			max_pockets.append(max(p))
 	return max_pockets
 
+#trims the actual amplitudes in each pockets to a minimum amplitude. 
 def trim_minimum_amplitudes(max_pockets):
 	trimmed_max_pockets = []
 	min_amp = 30000.0
@@ -71,6 +74,7 @@ def trim_minimum_amplitudes(max_pockets):
 			trimmed_max_pockets.append(max[1])
 	return trimmed_max_pockets
 
+#frequency based time pairs
 # def assigning_time_to_frequency_points(music_fingerprint):
 # 	frequency_pair_list = []
 # 	for idx, trimmed_max_pockets in enumerate(music_fingerprint):
@@ -78,6 +82,7 @@ def trim_minimum_amplitudes(max_pockets):
 # 			frequency_pair_list.append((number, idx))
 # 	return frequency_pair_list
 
+#pocket based time pairs. 
 def assigning_time_to_pocket_points(music_fingerprint):
 	frequency_pair_list = []
 	for idx, trimmed_max_pockets in enumerate(music_fingerprint):
@@ -85,6 +90,7 @@ def assigning_time_to_pocket_points(music_fingerprint):
 			frequency_pair_list.append((pocket_idx, idx))
 	return frequency_pair_list
 
+#creates locational fingerprint
 def location_fingerprint(filename):
 	raw_fingerprint = []
 	bins = slice_some_data(filename)
@@ -100,6 +106,7 @@ def location_fingerprint(filename):
 	location_fingerprint.sort()
 	return location_fingerprint
 
+#create time(bin)/frequency pairs for deeper organization. 
 def fingerprint_pair_hashing(location_fingerprint):
 	'''How far ahead we can look into the fingerprint to make pairs'''
 	range_value = 10

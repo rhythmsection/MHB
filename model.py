@@ -12,6 +12,7 @@ Base = declarative_base()
 
 ### Class declarations go here
 
+#Creating database to store song information.
 class Fingerprint(Base):
     __tablename__ = "fingerprints"
 

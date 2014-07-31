@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 
-<html>
+<html ng-app>
 <head>
+	<link type="text/css" rel="stylesheet" href="/static/css/main.css"/>
 	<meta http-equiv = "Content-Type" content = "text/html; charset = utf-8">
 	<title>SHIT'S GETTING REAL - A MANIFESTO</title>
-	<style type = 'text/css'>
-	</style>
 </head>
 <body>
-	
-	<button onclick = "startRecording(this);">GET THIS SHIT</button>
-	<button onclick = "stopRecording(this);", disabled>SHIT'S TOO REAL</button>
-
-	<div id ="results"></div>
-
+	{% raw %}
+	<div id="body" ng-controller="MusicResultsController">
+		<div id="boombox">
+			<img src="/static/images/boombox.png">
+		</div>
+		<div id="main_title">
+			<img src="/static/images/track_title.png">
+		</div>
+		<div id="results">
+			<button ng-click="startRecording(this);" ng-disabled="isRecording">GET THIS SHIT</button>
+			<h1>{{title}}</h1>
+				  <ul>
+				    <li ng-repeat="item in john">{{item.title}}
+				  </ul>
+		</div>
+		<img src="/static/images/logo.png">
+	</div>
+	{% endraw %}
 	<script>
 
 	var audio_context;
@@ -22,50 +33,49 @@
 	//passes stream input to recorder thingy?
 	function startUserMedia(stream) {
 		var input = audio_context.createMediaStreamSource(stream);
-		input.connect(audio_context.destination);
+		// input.connect(audio_context.destination);
 		recorder = new Recorder(input);
 	}
 
-	//starts recording
-	function startRecording(button) {
-		recorder && recorder.record();
-		button.disabled = true;
-		button.nextElementSibling.disabled = false;
-	}
+	var MusicResultsController = function($scope) {
+		$scope.isRecording = false;
 
-	//stops recording. can I also make it stop accessing the mic here???
-	function stopRecording(button) {
-		recorder && recorder.stop();
-		button.disabled = true;
-		button.previousElementSibling.disabled = false;
+		$scope.startRecording = function(button) {
+			recorder && recorder.record();
+			setTimeout(function(){
+				$scope.stopRecording(button);
+				}, 10000);
+			$scope.isRecording = true;
 
-		returnResults();
-		recorder.clear();
-	}
+		}
 
-	function returnResults() {
-		recorder && recorder.exportWAV(function(blob) {
-			var data = new FormData();
-			data.append('user_audio', blob);
-			var xhr = new XMLHttpRequest();
-			xhr.open('POST', '/music_recognition', true);
-			xhr.send(data);
-			xhr.onreadystatechange = function(){
-				if (xhr.readyState==4 && xhr.status == 200)
-					{
-						var results = document.getElementById('results');
-						var john = JSON.parse(xhr.responseText);
-						for (var i = 0; i < john.length; i++) {
-							var item = john[i];
-  							results.innerHTML = results.innerHTML + ' ' + item["title"] + ': ' + item["is_a_match"] + "</p>"
-  							console.log(item)
+		$scope.stopRecording = function(button) {
+			recorder && recorder.stop();
+			returnResults();
+			$scope.isRecording = false;
+			recorder.clear();
+		}
+
+
+		function returnResults() {
+			recorder && recorder.exportWAV(function(blob) {
+				var data = new FormData();
+				data.append('user_audio', blob);
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', '/music_recognition', true);
+				xhr.send(data);
+				xhr.onreadystatechange = function(){
+					if (xhr.readyState == 4 && xhr.status == 200){
+						$scope.title = 'Results';
+						$scope.john = JSON.parse(xhr.responseText);		
+						$scope.$apply() 				
 						}
-					}
-			}
+				}
 
-		});
+			});
 
-	}
+		}
+	}	
 
 	window.onload = function init() {
 		try {
@@ -85,8 +95,8 @@
 
 	};
 	</script>
-
-	<script src = "static/js/vendor/recorder.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+	<script src="static/js/vendor/recorder.js"></script>
 </body>
 </html>
 

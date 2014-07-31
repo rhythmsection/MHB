@@ -11,12 +11,16 @@ app = Flask(__name__)
 app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
 # app.jinja_env.undefined = jinja2.StrictUndefined
 
+#Where the music goes.
 app.config['UPLOAD_FOLDER'] = ''
 
+#Returns the "main page" with getUserMedia() API for recording.
 @app.route("/")
 def index():
     return render_template("receiveaudio.html")
 
+#Takes in the file from getUserMedia, names it "user_input.wav", uploads it and then
+#runs compare_fingerprint_to_database on it, returning the results as a JSON object. 
 @app.route("/music_recognition", methods=['POST'])   
 def music_recognition():
 	file = request.files['user_audio']
