@@ -18,7 +18,15 @@ def load_test_data(wav_file):
 	session.add(song)
 	session.commit()
 
+#new database of hashes and shit
+def oh_god_this_database(wav_file):
+	song_fingerprint = fingerprint.main(wav_file)
+	counter = 0
+	for stupid_tuple in song_fingerprint:
+		individual_hash = model.Hash(id = counter, song_id = 1, single_hash = song_fingerprint[counter][0])
+		counter +=1
+		session.add(individual_hash)
+	session.commit()
+
 load_test_data(wav_file)
-
-
 

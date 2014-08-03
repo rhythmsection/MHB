@@ -5,6 +5,7 @@ import base_app
 import pickle
 import os
 import subprocess
+import collections
 
 session = model.connect()
 
@@ -22,15 +23,23 @@ def change_stereo_to_mono(filename):
 def compare_fingerprint_to_database(filename):
 	file1 = fingerprint.main(filename)
 	fingerprints = session.query(model.Fingerprint)
-	counter = 1
 	database_iteration = []
 	for row in fingerprints:
 		file2 = pickle.loads(row.fingerprint)
 		match_list = []
 		current_song = {}
+		interval_count = collections.defaultdict(int)
+		interval_list = []
 		for i in file2:
-			if i in file1:
-				match_list.append(i)
+			for j in file1:
+				if i[0] == j[0]:
+					interval = i[1] - j[1]
+					interval_list.append(interval_count[interval] += 1)
+					match_list.append(i)
+		##append dictionaries to list
+		##look for max value out of all the dictionaries in list
+
+
 		current_song["matches"] = len(match_list)		
 		current_song["hashes"] = len(file1)
 		current_song["title"] = row.title
