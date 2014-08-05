@@ -1,5 +1,5 @@
 html, body {
-    font-family: helvetica;
+    font-family: courier;
     color: red;
     padding: 0;
     margin: 0;
@@ -35,10 +35,12 @@ ul {
 #body {
     color: black;
     background-color: black;
-    width: 80%;
-    height: 100%;
-    position:absolute;
-    left:10%;   
+    width: 700px;
+    height: 805px;
+    margin-left: auto;
+    margin-right: auto;
+
+
 }
 
 #body img{
@@ -56,23 +58,32 @@ ul {
 }
 
 #main_title {
-    background-color: Tan;
-    padding-top: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    height: 20%;
+    font-family: 'Permanent Marker', cursive;
+    background-image:url('/static/images/full_title.png');
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    padding-top: 50px;
+    padding-left: 0px;
+    padding-right: 0px;
+    height: 100px;
+    width: 100%;
+    vertical-align: top;
+    text-align: center;
+    line-height: 25px;
 
 }
-#main_title img{
-    height: 100%;
 
-
+#main_title h2 {
+    padding-top: 6px;
 }
+
 
 #results {
-    font-family: helvetica;
+    background-image:url('/static/images/cassette_back.png');
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-color: #151515;
     color: white;
-    background-color: Black;
     height: 200px;
     padding-left: 70px;
     padding-right: 70px;

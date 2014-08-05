@@ -9,7 +9,6 @@ import json
 
 app = Flask(__name__)
 app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
-# app.jinja_env.undefined = jinja2.StrictUndefined
 
 #Where the music goes.
 app.config['UPLOAD_FOLDER'] = ''

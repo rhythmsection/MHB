@@ -3,24 +3,25 @@
 <html ng-app>
 <head>
 	<link type="text/css" rel="stylesheet" href="/static/css/main.css"/>
+	<link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
 	<meta http-equiv = "Content-Type" content = "text/html; charset = utf-8">
-	<title>SHIT'S GETTING REAL - A MANIFESTO</title>
+	<title>MyHipsterBoyfriend</title>
 </head>
 <body>
 	{% raw %}
 	<div id="body" ng-controller="MusicResultsController">
 		<div id="boombox">
-			<img src="/static/images/boombox.png">
+			<img src="/static/images/boombox_bw.png">
 		</div>
 		<div id="main_title">
-			<img src="/static/images/track_title.png">
+			<h2><i>{{john.title}}</i></h2>
+			<h3>{{john.artist}}<br></h3>
 		</div>
 		<div id="results">
-			<button ng-click="startRecording(this);" ng-disabled="isRecording">GET THIS SHIT</button>
-			<h1>{{title}}</h1>
-				  <ul>
-				    <li ng-repeat="item in john">{{item.title}}
-				  </ul>
+			    <button type="button" id="input_img" ng-click="startRecording(this);" ng-disabled="isRecording"> 
+    			<img ng-src="{{recordingImage}}" 
+    			 alt="get_sound">
+    			</button>
 		</div>
 		<img src="/static/images/logo.png">
 	</div>
@@ -30,29 +31,32 @@
 	var audio_context;
 	var recorder;
 
-	//passes stream input to recorder thingy?
+	//passes stream input to recorder
 	function startUserMedia(stream) {
 		var input = audio_context.createMediaStreamSource(stream);
-		// input.connect(audio_context.destination);
 		recorder = new Recorder(input);
 	}
 
 	var MusicResultsController = function($scope) {
 		$scope.isRecording = false;
+		$scope.recordingImage = "/static/images/action_button.png";
 
 		$scope.startRecording = function(button) {
 			recorder && recorder.record();
 			setTimeout(function(){
 				$scope.stopRecording(button);
 				}, 10000);
+			$scope.recordingImage = "/static/images/listening_2.png";
 			$scope.isRecording = true;
 
 		}
 
 		$scope.stopRecording = function(button) {
 			recorder && recorder.stop();
+			$scope.recordingImage = "/static/images/loading.gif";
 			returnResults();
 			$scope.isRecording = false;
+			$scope.$apply()
 			recorder.clear();
 		}
 
@@ -68,6 +72,7 @@
 					if (xhr.readyState == 4 && xhr.status == 200){
 						$scope.title = 'Results';
 						$scope.john = JSON.parse(xhr.responseText);		
+						$scope.recordingImage = "/static/images/action_button.png";
 						$scope.$apply() 				
 						}
 				}
@@ -87,10 +92,10 @@
 			audio_context = new AudioContext;
 		}
 		catch (e) {
-			alert('SON, THIS SHIT WILL NOT FLY');
+			alert('SON, THIS WILL NOT FLY');
 		}
-		//finally run .getUserMedia calling constraint audio, successCallback //startUserMedia, errorCallback noooooooo
-		navigator.getUserMedia({audio: true}, startUserMedia, function(e) {console.log('noooooooooooooo' + e);
+		//finally run .getUserMedia calling constraint audio, successCallback //startUserMedia, errorCallback
+		navigator.getUserMedia({audio: true}, startUserMedia, function(e) {console.log('This is not correctly enabled.' + e);
 	});
 
 	};

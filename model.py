@@ -10,9 +10,8 @@ Session = None
 
 Base = declarative_base()
 
-### Class declarations go here
-
 #Creating database to store song information.
+
 class Fingerprint(Base):
     __tablename__ = "fingerprints"
 
@@ -21,15 +20,6 @@ class Fingerprint(Base):
     artist = Column(String, nullable = True)
     album = Column(String, nullable = True)
     fingerprint = Column(Text, nullable = True)
-
-class Hash(Base):
-    __tablename__ = "hashes"
-
-    id = Column(Integer, primary_key = True)
-    song_id = Column(Integer, nullable = True)
-    single_hash = Column(String, nullable = True)
-
-### End class declarations
 
 def connect():
     global ENGINE
@@ -40,9 +30,3 @@ def connect():
 
     return Session()
 
-def main():
-    """In case we need this for something"""
-    pass
-
-if __name__ == "__main__":
-    main()
