@@ -27,11 +27,11 @@ To start this circuit, the user records audio using WebRTC, which requests acces
 
 ######(fingerprint.py)
 
-The fingerprinting algorithm works by taking in a mono .wav file and running a Fast Fourier Transform on the file, returning a location-ordered list of the amplitudes in the song. Since the amplitudes themselves are relative, they are only used for sorting within the song--the end result uses frequencies--determined by the individual locations of each of the amplitudes. 
+The fingerprinting algorithm works by taking in a mono .wav file and running a Fast Fourier Transform on the file, returning a location-ordered list of the amplitudes in the song. Since the amplitudes themselves are relative, the end result is ordered by frequencies determined by the individual locations of each of the amplitudes. 
 
 Because of the large amount of data, the main goal of the algorithm is to create a stripped down model of the results of the Fourier transform, which starts by sorting the amplitudes in overlapped bins (currently 0.5 seconds long with a 50% overlap), and then sorting each bin into logarithmically determined 'pockets' containing frequency/amplitude pairs. It then uses the pockets to strip data, saving only the pair with the highest amplitude as the representative data for that pocket. 
 
-Also in order to trim excess data, the algorithm trims any very low amplitudes. 0.0hz amplitudes are prevalent in lmost any clip and not very helpful in creating unique signatures for any given song. 
+Also in order to trim excess data, the algorithm trims any very low amplitudes. 0.0hz amplitudes are prevalent in almost any clip and not very helpful in creating unique signatures for any given song, so let's get rid of them! 
 
 Finally, it discards the amplitudes and takes only the frequencies from the tuple data pairs, tying them to their respective time markers, indicated by the bins that hold them. This data (frequency, time) becomes the individual fingerprint. 
 
