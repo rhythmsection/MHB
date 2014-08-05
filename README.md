@@ -4,7 +4,7 @@
 ===
 
 
-MyHipsterBoyfriend is a music recognition service that enables the user to record audio through their computer's microphone, which is then compared using interval matching to a self-seeded database of existing acoustic fingerprints to find the best match for that song.
+MyHipsterBoyfriend is a music recognition system that enables the user to record audio through their computer's microphone and compare it, using acoustic fingerprinting and interval matching, to a self-seeded database of existing acoustic fingerprints to find the best match for that song.
 
 
 Technology Stack: Python (Libraries: ffmpeg, numpy, scipy), Flask, SQLAlchemy, SQLite, JSON, JavaScript, Angular.js, WebRTC, Recorder.js, HTML, CSS
