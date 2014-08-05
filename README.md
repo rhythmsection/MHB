@@ -43,9 +43,10 @@ In order to compare fingerprints between the submitted clip and the database, th
 
 Finally, comparison.py brings the aforementioned processes together and combines them to iterate over the new clip and compare it to the entries in the database. 
 
-![alt tag](https://raw.githubusercontent.com/rhythmsection/MHB/master/static/readme/screen_shot2.gif)
 ###User Experience
 
 ######(receiveaudio.html)
 
 The front-end uses HTML, CSS and JavaScript (including the magic of Angular.js, Recorder.js, GetUserMedia()) in order to create a user-friendly one-button input. The application requires and must be granted permission to use the computer's microphone through the browser's interface in order to activate functionality. *Please note that full-functionality is currently limited to modern Chrome browsers.*
+
+![alt tag](https://raw.githubusercontent.com/rhythmsection/MHB/master/static/readme/screen_shot2.gif)
