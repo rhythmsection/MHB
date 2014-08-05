@@ -43,7 +43,7 @@ In order to compare fingerprints between the submitted clip and the database, th
 
 Finally, comparison.py brings the aforementioned processes together and combines them to iterate over the new clip and compare it to the entries in the database. 
 
-![alt tag](https://raw.githubusercontent.com/rhythmsection/MHB/master/static/readme/screen_shot.gif)
+![alt tag](https://raw.githubusercontent.com/rhythmsection/MHB/master/static/readme/screen_shot2.gif)
 ###User Experience
 
 ######(receiveaudio.html)
